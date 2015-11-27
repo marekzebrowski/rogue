@@ -4,21 +4,21 @@ import Keys._
 
 object RogueBuild extends Build {
   override lazy val projects =
-    Seq(all, index, core, lift)
+    Seq(all, index, core, lift, cc)
 
   lazy val all: Project = Project("all", file(".")) aggregate(
-    index, core, lift)
+    index, core, lift, cc)
 
   lazy val index = Project("rogue-index", file("rogue-index/")) dependsOn()
   lazy val core = Project("rogue-core", file("rogue-core/")) dependsOn(index % "compile;test->test;runtime->runtime")
   lazy val lift = Project("rogue-lift", file("rogue-lift/")) dependsOn(core % "compile;test->test;runtime->runtime")
+  lazy val cc = Project("rogue-cc", file("rogue-cc/")) dependsOn(core % "compile;test->test;runtime->runtime")
   lazy val IvyDefaultConfiguration = config("default") extend(Compile)
 
   lazy val defaultSettings: Seq[Setting[_]] = Seq(
-    version := "2.5.2-SNAPSHOT",
+    version := "3.0.0-SNAPSHOT",
     organization := "com.foursquare",
-    scalaVersion := "2.10.4",
-    crossScalaVersions := Seq("2.10.4", "2.11.5"),
+    scalaVersion := "2.11.7",
     publishMavenStyle := true,
     publishArtifact in Test := false,
     pomIncludeRepository := { _ => false },
